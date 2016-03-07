@@ -7,18 +7,28 @@ class User < ActiveRecord::Base
                     uniqueness: { case_sensitive: false }
   has_secure_password
   
-  has_many :following_relationships, class_name:  "Relationship", foreign_key: "follower_id", dependent: :destroy
-  has_many :following_users, through: :following_relationships, source: :followed
-  has_many :followed_relationships, class_name:  "Relationship", foreign_key: "followed_id", dependent: :destroy
+  has_many :following_relationships, class_name:  "Relationship", 
+                                     foreign_key: "follower_id", 
+                                    dependent: :destroy
+  has_many :following_users, through: :following_relationships, 
+                             source: :followed
+  has_many :followed_relationships, class_name:  "Relationship", 
+                                    foreign_key: "followed_id", 
+                                    dependent: :destroy
   has_many :followed_users, through: :followed_relationships, source: :follower
 
-  has_many :ownerships , foreign_key: "user_id", dependent: :destroy
+  has_many :ownerships , foreign_key: "user_id", 
+                         dependent: :destroy
   has_many :items ,through: :ownerships
 
-  has_many :wants, class_name: "Want", foreign_key: "user_id", dependent: :destroy
+  has_many :wants, class_name: "Want", 
+                  foreign_key: "user_id", 
+                  dependent: :destroy
   has_many :want_items , through: :wants, source: :item
 
- has_many :haves, class_name: "Have", foreign_key: "user_id", dependent: :destroy
+  has_many :haves, class_name: "Have", 
+                   foreign_key: "user_id", 
+                   dependent: :destroy
   has_many :have_items , through: :haves, source: :item
   
   # 他のユーザーをフォローする
@@ -34,28 +44,35 @@ class User < ActiveRecord::Base
     following_users.include?(other_user)
   end
 
-  ## TODO 実装
-  def have(item)
-　　ownerships.create(user_id: item.id) 
-  end
-
-  def unhave(item)
-    ownerships.create(user_id: item.id).destroy
-  end
-
-  def have?(item)
-    ownerships.include?(item)
-  end
-
-  # itemをwantする
+  # itemをwant
   def want(item)
-    ownerships.find_or_create_by(user_id: item.item_id)
+    wants.find_or_create_by(item_id: item.id)
   end
 
-  def unwant(item)
-  end
-
+  # itemをwantしている場合true、wantしていない場合falseを返す。
   def want?(item)
+    #binding.pry
+    want_items.include?(item)
+  end
+  
+  # itemのwantを解除
+  def unwant(item)
+      wants.find_by(item_id: item.id).destroy
+  end
+
+  # itemをhave
+  def have(item)
+    haves.find_or_create_by(item_id: item.id)
+  end
+
+  # itemをhaveしている場合true、haveしていない場合falseを返す。
+  def have?(item)
+    have_items.include?(item)
+  end
+  
+  # itemのhaveを解除
+  def unhave(item)
+      haves.find_by(item_id: item.id).destroy
   end
   
 end

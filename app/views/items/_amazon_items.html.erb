@@ -5,8 +5,7 @@
         <div class="image">
           <div class="img-wrap">
             <% #TODO 商品画像 %>
-            <% @image_url = item.get('LargeImage/URL') %>
-            <% if @image_url.nil?  %>
+            <% if item.get('LargeImage/URL').nil?  %>
               <%= image_tag( "/assets/no-image.png", alt: item.get('ItemAttributes/Title')) %>
             <% else %>
               <%= image_tag( item.get('LargeImage/URL'), alt: item.get('ItemAttributes/Title')) %>
@@ -15,7 +14,7 @@
         </div>
         <div class="detail">
           <p class="title">
-            <% #TODO 商品タイトル %>
+            <% #商品タイトル %>
             <%= item.get('ItemAttributes/Title') %>
           </p>
         </div>
