@@ -4,7 +4,7 @@
       <div class="item-box">
         <div class="image">
           <div class="img-wrap">
-            <% #TODO 商品画像 %>
+            <% #商品画像 %>
             <% if item.get('LargeImage/URL').nil?  %>
               <%= image_tag( "/assets/no-image.png", alt: item.get('ItemAttributes/Title')) %>
             <% else %>
