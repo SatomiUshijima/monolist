@@ -1,3 +1,7 @@
+<% content_for :head do %>
+  <%= "<title>#{@item.title} - monolist</title>".html_safe %>
+  <%= "<meta name='description' content='#{@item.title}に関する情報です。この商品を欲しい人、持ってる人を表示しています。'>".html_safe %>
+<% end %>
 <div class="container">
   <div class="container-inner inner-sm clearfix">
     <div class="item-single-main">
@@ -12,10 +16,8 @@
         </div>
       </div>
       <div class="title">
-     <% content_for :head do %>
-        <%= "<title>#{@item.title} - monolist</title>".html_safe %>
-        <%= "<meta name='description' content='#{@item.title}に関する情報です。この商品を欲しい人、持ってる人を表示しています。'>".html_safe %>
-      <% end %>
+        <% #商品タイトル %>
+      　<%= @item.title %>
       </div>
       <%= render 'action' , item: @item %>
     </div>
@@ -32,10 +34,10 @@
       <div class="side-box">
         <h4 class="side-box-title">Wantしたユーザー</h4>
         <div class="side-box-body">
-          <% # Wantしたユーザー一覧 %>
+          <% # TODO Wantしたユーザー一覧 %>
           <% @want_users.each do |user| %>
-            <%= link_to(gravatar_for(user, size: 24), user_path(user)) %>
-          <% end %>
+              <%= link_to(gravatar_for(user, size: 24), user_path(user)) %>
+            <% end %>
         </div>
       </div>
       <div class="text-center">

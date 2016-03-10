@@ -1,9 +1,7 @@
-<div class="title">
 <% content_for :head do %>
 <%= "<title>#{@user.name} - monolist</title>".html_safe %>
 <%= "<meta name='description' content='#{@user.name}のモノページ。#{@user.name}の欲しいモノ、持ってるモノを表示しています。'>".html_safe %>
 <% end %>
-</div>
 <%= render 'profile' , user: @user %>
 
 
